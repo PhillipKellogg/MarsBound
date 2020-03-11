@@ -1,0 +1,23 @@
+.tile{
+    display: inline-flex;
+    margin: 0;
+    padding: 0;
+    background-color: lightblue;
+}
+.rock{
+    background-image: url('../../assets/tiles/rock.png');
+    background-position: center;
+    background-size: cover;
+    
+}
+.tree{
+    background-image: url('../../assets/tiles/tree.png');
+    background-position: center;
+    background-size: cover;
+}
+.grass{
+        background-color: lightblue;
+}
+.void{
+    background-color: black;
+}
