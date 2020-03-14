@@ -1,7 +1,7 @@
 import React from "react";
 // import { render } from "@testing-library/react";
 import { connect } from "react-redux";
-import sprite from "./../../assets/tiles/sign.png";
+import sprite from "./../../../assets/tiles/sign.png";
 // import handleMovement from "./movement";
 function Sign(props) {
   return (
@@ -14,12 +14,9 @@ function Sign(props) {
         backgroundSize: "contain",
         backgroundRepeat: "no-repeat",
         width: "40px",
-        height: "40px",
-    
+        height: "40px"
       }}
-    >
-
-    </div>
+    ></div>
   );
 }
 
