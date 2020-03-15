@@ -11,6 +11,9 @@
   border: darkcyan 4px solid;
   display: flex;
   position: relative;
+  &__container {
+    word-wrap: break-word;
+  }
   &__wrapper {
     width: 800px;
     // background-color: aquamarine;

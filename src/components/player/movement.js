@@ -81,37 +81,53 @@ export default function handleMovement(player) {
       }
     });
   }
+
   function startDialogue(interact) {
     switch (interact) {
       case "1":
-        return 1;
+        return changePage(1);
       case "2":
-        return -1;
+        return changePage(1);
       case "3":
-        return -1;
+        return changePage(-1);
       case "4":
-        return 1;
+        return changePage(1);
+    }
+  }
+
+  function valueBoundary(value) {
+    let currDialogue = store.getState().player.currDialogue;
+    // let currDialogueLength = store.getState().player.currDialogue.length;
+
+    let newVal = store.getState().player.page + value;
+    if (
+      !!currDialogue &&
+      newVal < store.getState().player.currDialogue.length &&
+      newVal >= 0
+    ) {
+      return true;
+    }
+    return false;
+  }
+
+  function changePage(value) {
+    let index;
+    index = valueBoundary(value);
+    // if (index) {
+    // console.log(value);
+    // console.log(`Value Boundary ${valueBoundary(value)}`);
+    if (index) {
+      store.dispatch({
+        type: "CHANGE_PAGE",
+        payload: { value }
+      });
     }
   }
 
   function hasDialogue(npc) {
-    
     if (npc.dialogue !== null || npc.dialogue !== undefined) {
-      let dialogueLength = npc.dialogue.length;
-      let position = 0;
-      position += startDialogue();
-
-      if (position < 0){
-        position = 0;
-      } else if  (position >= dialogueLength)
-      {
-        position = null
-      } 
-      console.log(position);
-      console.log(npc.dialogue[position]);
-      
-      
-      return  npc.dialogue[position];
+      console.log(npc.dialogue[0]);
+      return npc.dialogue;
     }
   }
 
@@ -135,7 +151,9 @@ export default function handleMovement(player) {
 
     //newPos is the calculated new position
     const newPos = getNewPosition(oldPos, direction);
-
+    let check = 0;
+    // console.log(startDialogue( check));
+    //  startDialogue();
     if (
       observeBoundaries(oldPos, newPos) &&
       npcCheck(direction, oldPos, newPos) &&

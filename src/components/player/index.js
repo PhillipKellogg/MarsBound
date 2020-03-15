@@ -25,7 +25,7 @@ function Player(props) {
         }}
       ></div>
 
-      <Dialogue msg={props.currDialogue} />
+      <Dialogue page={props.page} msg={props.currDialogue} />
     </div>
   );
 }

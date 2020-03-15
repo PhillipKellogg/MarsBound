@@ -5,18 +5,28 @@ import "./style.scss";
 // import { render } from "@testing-library/react";
 // import handleMovement from "./movement";
 function Dialogue(props) {
+  // let pageNum = props.page;
+  // if (!!props.msg) {
+  //   if (pageNum < 0 || pageNum >= props.msg.length) {
+  //     pageNum = 0;
+  //   }
+  // } else {
+  //   pageNum = 0;
+  // }
   return (
     <div className="box__wrapper">
       <div className="box">
         <div className="box__border">
           <div className="box__border--text">
-            {props.msg}
-            {props.msg === null || props.msg === undefined ? null : (
-              <div className="box__continue">
-                <p> K go back </p>
-                <p> J to continue </p>
+            {!!props.msg ? (
+              <div className="box__container">
+                {props.msg[props.page]}
+                <div className="box__continue">
+                  <p>J to continue</p>
+                  <p>K to go back</p>
+                </div>
               </div>
-            )}
+            ) : null}
           </div>
         </div>
       </div>
