@@ -4,6 +4,8 @@ import Map from "../map";
 import Pages from "../pages/Pages";
 
 import Sign from "../npc/sign";
+import Knight from "../npc/knight";
+
 import { tiles } from "../../data/maps/1";
 import store from "../../config/store";
 
@@ -27,6 +29,7 @@ function World(props) {
         <Map />
         <Player />
         <Sign />
+        <Knight />
       </div>
     </Pages>
   );

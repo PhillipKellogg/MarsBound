@@ -22,8 +22,8 @@ function Dialogue(props) {
               <div className="box__container">
                 {props.msg[props.page]}
                 <div className="box__continue">
-                  <p>J to continue</p>
-                  <p>K to go back</p>
+                  <p>J continue</p>
+                  <p>K back</p>
                 </div>
               </div>
             ) : null}

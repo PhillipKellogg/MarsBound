@@ -1,10 +1,10 @@
 import store from "../../config/store";
 import { SPRITE_SIZE, MAP_WIDTH, MAP_HEIGHT } from "../../config/constants";
-export default function handleMovement(player) {
-  // function collision(newPos, npcPos) {
-  //   return !newPos === npcPos;
-  // }
+import { func } from "prop-types";
+import { tiles } from "../../data/maps/1";
+import { fightStageWorld } from "../../data/maps/2";
 
+export default function handleMovement(player) {
   function observeBoundaries(oldPos, newPos) {
     return (
       newPos[0] >= 0 &&
@@ -20,20 +20,11 @@ export default function handleMovement(player) {
     const x = newPos[0] / SPRITE_SIZE;
     const nextTile = tiles[y][x];
 
-    if (nextTile === 50) startDialogue();
-    // if (nextTile<20){startDialogue();}
+    // if (nextTile === 50) startDialogue();
     return nextTile < 5;
   }
 
-  // function startDialogue (character){
-  //   if character.get.state dialogue ===true{
-  // store.getState().character[nextTile].dialogue;
-  //   }
-  // }
-
   function getNewPosition(oldPos, direction) {
-    //   if direction
-    // return[oldPos[0]-SPRITE_SIZE, oldPos[1]-SPRITE_SIZE]
     switch (direction) {
       default:
         console.log(direction);
@@ -67,7 +58,7 @@ export default function handleMovement(player) {
     return walkIndex >= 7 ? 0 : walkIndex + 1;
   }
 
-  function dispatchMove(direction, newPos, currDialogue) {
+  function dispatchMove(direction, newPos, currDialogue, talkingTo) {
     const walkIndex = getWalkIndex();
 
     store.dispatch({
@@ -77,6 +68,9 @@ export default function handleMovement(player) {
         direction,
         walkIndex,
         currDialogue,
+        page: 0,
+        talkingTo,
+        finalPage: false,
         spriteLocation: getSpriteLocation(direction, walkIndex)
       }
     });
@@ -84,23 +78,28 @@ export default function handleMovement(player) {
 
   function startDialogue(interact) {
     switch (interact) {
-      case "1":
-        return changePage(1);
-      case "2":
-        return changePage(1);
-      case "3":
-        return changePage(-1);
-      case "4":
-        return changePage(1);
+      //????????????????????????? INTERACT KEYS ?????????????????????????????
+      case "i":
+        return changePage(true); // Option One
+      case "accept":
+        return changePage(1); // J
+      case "decline":
+        return changePage(-1); // K
+      case "l":
+        return changePage(false); // Option two
     }
   }
 
   function valueBoundary(value) {
-    let currDialogue = store.getState().player.currDialogue;
-    // let currDialogueLength = store.getState().player.currDialogue.length;
-
+    let { currDialogue, canFight, inCombat } = store.getState().player;
     let newVal = store.getState().player.page + value;
+
     if (
+      !!currDialogue &&
+      newVal === store.getState().player.currDialogue.length - 1
+    ) {
+      return "FINAL_PAGE";
+    } else if (
       !!currDialogue &&
       newVal < store.getState().player.currDialogue.length &&
       newVal >= 0
@@ -113,21 +112,51 @@ export default function handleMovement(player) {
   function changePage(value) {
     let index;
     index = valueBoundary(value);
-    // if (index) {
-    // console.log(value);
-    // console.log(`Value Boundary ${valueBoundary(value)}`);
-    if (index) {
+
+    if (index === "FINAL_PAGE") {
       store.dispatch({
         type: "CHANGE_PAGE",
-        payload: { value }
+        payload: { value, finalPage: true }
+      });
+    } else if (index) {
+      store.dispatch({
+        type: "CHANGE_PAGE",
+        payload: { value, finalPage: false }
       });
     }
   }
 
   function hasDialogue(npc) {
     if (npc.dialogue !== null || npc.dialogue !== undefined) {
-      console.log(npc.dialogue[0]);
       return npc.dialogue;
+    }
+  }
+
+  function dispatchCombat(npc) {
+    console.log("GET READY TO FIGHT!");
+
+    store.dispatch({
+      type: "COMBAT",
+      payload: {
+        inCombat: true,
+        fighter: npc.name
+      }
+    });
+  }
+
+  function hasCombatCheck(npc) {
+    if (npc.hasCombat) {
+      return true;
+    }
+  }
+
+  function inCombat(npc) {
+    if (npc.hasCombat) {
+      if (hasCombatCheck(npc) && hasDialogue(npc) !== null) {
+        console.log(`${npc.name} has combat is equal to ${npc.hasCombat}`);
+        // setTimeout(console.log("GET READY FOR FIGHT IN 3 SECONDS")(npc), 2000);
+        dispatchCombat(npc);
+      }
     }
   }
 
@@ -135,12 +164,22 @@ export default function handleMovement(player) {
     //NPC List
     const sign = store.getState().sign;
     const signPos = sign.position;
+    const knight = store.getState().knight;
+    const knightPos = knight.position;
     let move = true;
     //repeat for each NPC
     if (newPos[1] === signPos[1] && newPos[0] === signPos[0]) {
-      // console.log(hasDialogue(sign));
-      dispatchMove(direction, oldPos, hasDialogue(sign));
+      dispatchMove(direction, oldPos, hasDialogue(sign), sign.name);
       move = false; //Is it ok to move?
+    }
+    if (newPos[1] === knightPos[1] && newPos[0] === knightPos[0]) {
+      // console.log(knight.name);
+
+      dispatchMove(direction, oldPos, hasDialogue(knight), knight.name);
+
+      inCombat(knight);
+
+      move = false;
     }
     return move;
   }
@@ -148,18 +187,76 @@ export default function handleMovement(player) {
   function attemptMove(direction) {
     //Old Pos is old position before moving the player
     const oldPos = store.getState().player.position;
-
     //newPos is the calculated new position
     const newPos = getNewPosition(oldPos, direction);
     let check = 0;
-    // console.log(startDialogue( check));
-    //  startDialogue();
     if (
       observeBoundaries(oldPos, newPos) &&
       npcCheck(direction, oldPos, newPos) &&
       observeImpassable(oldPos, newPos)
     )
       dispatchMove(direction, newPos);
+  }
+
+  function checkFightStatus(interact) {
+    switch (interact) {
+      case "accept":
+        if (
+          store.getState().player.inCombat &&
+          store.getState().player.finalPage
+        ) {
+          //+++++++++++++++++++++++++++++++++MAP UPDATES++++++++++++++++++++++++++++++++++++++++
+          store.dispatch({
+            type: "ADD_TILES",
+            payload: {
+              tiles: fightStageWorld
+            }
+          });
+          fightingNow();
+
+          //-------------------------------------------------------------CHANGE THIS---- TESTING ONLY ---------------------------------------------------------------------------------------------------------------------------
+          signDisplayNoneBadFunctionChangeThis();
+          //-------------------------------------------------------------CHANGE THIS---- TESTING ONLY ---------------------------------------------------------------------------------------------------------------------------
+
+          if (store.getState().player.talkingTo === "knight") {
+            fightTheKnight();
+          }
+          return console.log("changing stage");
+        }
+    }
+  }
+
+  function fightingNow() {
+    store.dispatch({
+      type: "FIGHTING_NOW",
+      payload: {
+        fightingNow: true,
+        visibility: "hidden"
+      }
+    });
+  }
+
+  //-------------------------------------------------------------CHANGE THIS---- TESTING ONLY ---------------------------------------------------------------------------------------------------------------------------
+  function signDisplayNoneBadFunctionChangeThis() {
+    store.dispatch({
+      type: "SHOW_SIGN",
+      payload: {
+        display: "none"
+      }
+    });
+  }
+  //-------------------------------------------------------------CHANGE THIS---- TESTING ONLY ---------------------------------------------------------------------------------------------------------------------------
+
+  function fightTheKnight() {
+    let fightStance = [240, 0];
+    store.dispatch({
+      type: "DRAW_FIGHT",
+      payload: {
+        pos: fightStance,
+        sLocation: "0px 0px",
+        fighting: true
+      }
+    });
   }
 
   function handleKeyDown(e) {
@@ -184,24 +281,18 @@ export default function handleMovement(player) {
       case 32:
         return startDialogue("interact");
       case 73:
-        return startDialogue("1");
+        return startDialogue("i");
       case 74:
-        return startDialogue("2");
+        return startDialogue("accept"), checkFightStatus("accept");
       case 75:
-        return startDialogue("3");
+        return startDialogue("decline");
       case 76:
-        return startDialogue("4");
+        return startDialogue("l");
 
       default:
         console.log(e.keyCode);
     }
   }
-
-  // const npcCheck = () => {
-  //   if (store.getState().player.position === store.getState().sign.position) {
-  //     console.log("standing on sign");
-  //   }
-  // };
 
   window.addEventListener("keydown", e => {
     handleKeyDown(e);

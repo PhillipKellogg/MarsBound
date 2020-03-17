@@ -10,12 +10,18 @@ function getTileSprite(type) {
   switch (type) {
     case 0:
       return "grass";
-    case 10:
-      return "void";
+    case 3:
+      return "safeTile";
     case 5:
       return "rock";
     case 6:
       return "tree";
+    case 8:
+      return "fightTile1";
+    case 9:
+      return "fightTile2";
+    case 10:
+      return "void";
     case 50:
       return "sign";
   }

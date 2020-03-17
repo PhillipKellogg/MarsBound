@@ -8,7 +8,6 @@ import store from "../../config/store";
 import Dialogue from "../dialogue";
 
 function Player(props) {
-  let dis;
   // { (props.currDialogue === null) ?       style={display:"none"} :    style={display:"inline"} }
 
   return (
@@ -21,7 +20,8 @@ function Player(props) {
           backgroundImage: `url(${sprite})`,
           backgroundPosition: props.spriteLocation,
           width: "40px",
-          height: "40px"
+          height: "40px",
+          visibility: props.visibility
         }}
       ></div>
 

@@ -3,7 +3,16 @@ import React from "react";
 import { connect } from "react-redux";
 import sprite from "./../../../assets/tiles/sign.png";
 // import handleMovement from "./movement";
+import { tiles } from "../../../data/maps/1";
+import store from "../../../config/store";
+import signDisplay from "./renderer.js";
+
 function Sign(props) {
+  //----------------------------------------------------------------------------------------------------
+  //                                GET THE SIGN TO DISPLAY PROPERLY
+  //                                         IF STATEMENT NOT WORKING
+  //----------------------------------------------------------------------------------------------------
+
   return (
     <div
       style={{
@@ -14,7 +23,8 @@ function Sign(props) {
         backgroundSize: "contain",
         backgroundRepeat: "no-repeat",
         width: "40px",
-        height: "40px"
+        height: "40px",
+        display: props.display
       }}
     ></div>
   );
@@ -26,4 +36,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(Sign);
+export default connect(mapStateToProps)(signDisplay(Sign));

@@ -1,29 +1,82 @@
-.tile{
-    display: inline-flex;
-    margin: 0;
-    padding: 0;
-    background-color: lightblue;
+.tile {
+  display: inline-flex;
+  margin: 0;
+  padding: 0;
+  background-color: lightblue;
 }
-.rock{
-    background-image: url('../../assets/tiles/rock.png');
-    background-position: center;
-    background-size: cover;
-    
+.rock {
+  background-image: url("../../assets/tiles/rock.png");
+  background-position: center;
+  background-size: cover;
 }
-.tree{
-    background-image: url('../../assets/tiles/tree.png');
-    background-position: center;
-    background-size: cover;
+.tree {
+  background-image: url("../../assets/tiles/tree.png");
+  background-position: center;
+  background-size: cover;
 }
-.grass{
-        background-color: lightblue;
+.grass {
+  background-color: lightblue;
 }
-.void{
-    background-color: black;
+.void {
+  background-color: black;
 }
 
-.sign{
-    background-image: url('../../assets/tiles/sign.png');
-    background-position: center;
-    background-size: cover;
+.sign {
+  background-image: url("../../assets/tiles/sign.png");
+  background-position: center;
+  background-size: cover;
+}
+//ANIMATE THE BACKGROUND FIGHT TILE FROM RED TO PINK
+.fightTile1 {
+  //   background-color: red;
+  animation: fightBackground1 5s infinite;
+}
+.fightTile2 {
+  //   background-color: red;
+  animation: fightBackground2 5s infinite;
+}
+
+.safeTile {
+  //   background-color: red;
+  animation: safeBackground 5s infinite;
+}
+@keyframes fightBackground1 {
+  0% {
+    background-color: #ffd6dd;
+  }
+  50% {
+    background-color: #ad0320;
+  }
+  100% {
+    background-color: #ffd6dd;
+  }
+}
+@keyframes fightBackground2 {
+  0% {
+    background-color: #ad0320;
+  }
+  50% {
+    background-color: #ffd6dd;
+  }
+  100% {
+    background-color: #ad0320;
+  }
+}
+
+@keyframes safeBackground {
+  0% {
+    background-color: #33b4ff;
+  }
+  25% {
+    background-color: #33fff8;
+  }
+  50% {
+    background-color: #33ffc2;
+  }
+  75% {
+    background-color: #33ff74;
+  }
+  100% {
+    background-color: #33b4ff;
+  }
 }
