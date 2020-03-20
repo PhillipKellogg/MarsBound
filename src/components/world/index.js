@@ -4,6 +4,9 @@ import Map from "../map";
 import Pages from "../pages/Pages";
 
 import Sign from "../npc/sign";
+import SignTwo from "../npc/signTwo";
+// import Goblin from "../npc/goblin";
+
 import Knight from "../npc/knight";
 
 import { tiles } from "../../data/maps/1";
@@ -13,7 +16,8 @@ function World(props) {
   store.dispatch({
     type: "ADD_TILES",
     payload: {
-      tiles
+      tiles,
+      name: "Stage1"
     }
   });
   return (
@@ -29,6 +33,8 @@ function World(props) {
         <Map />
         <Player />
         <Sign />
+        <SignTwo />
+        {/* <Goblin /> */}
         <Knight />
       </div>
     </Pages>

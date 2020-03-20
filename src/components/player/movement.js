@@ -3,6 +3,9 @@ import { SPRITE_SIZE, MAP_WIDTH, MAP_HEIGHT } from "../../config/constants";
 import { func } from "prop-types";
 import { tiles } from "../../data/maps/1";
 import { fightStageWorld } from "../../data/maps/2";
+import { worldTwoTiles } from "../../data/maps/3";
+import { worldThreeTiles } from "../../data/maps/4";
+
 import fight from "./fight";
 import { someSeries } from "async";
 
@@ -22,7 +25,32 @@ export default function handleMovement(player) {
     const x = newPos[0] / SPRITE_SIZE;
     const nextTile = tiles[y][x];
 
+    if (nextTile===9){
+      if (store.getState().map.name === "Stage1"){
+      setTimeout(function(){worldTransition(worldTwoTiles, "Stage2")}, 1500);
+      console.log("STAGE CHANGE IF STATEMENT");
+      setTimeout(function(){dispatchPosition(80,120)}, 1500);
+      setTimeout(function(){signDisplayNoneBadFunctionChangeThis()}, 1500);
+      }
+      if (store.getState().map.name === "Stage2"){
+        setTimeout(function(){worldTransition(worldThreeTiles, "Stage3")}, 1500);
+        console.log("STAGE CHANGE IF STATEMENT");
+        setTimeout(function(){dispatchPosition(40,120)}, 1500);
+
+        }
+    }
+
     return nextTile < 20;
+  }
+
+  function dispatchPosition(x,y){
+    const initialPos = [x,y];
+    store.dispatch({
+      type: "POSITION_CHANGE",
+      payload: {
+        position: initialPos,
+      }
+    });
   }
 
   function getNewPosition(oldPos, direction) {
@@ -210,14 +238,14 @@ export default function handleMovement(player) {
           !store.getState().player.fightingNow
         ) {
           //+++++++++++++++++++++++++++++++++MAP UPDATES++++++++++++++++++++++++++++++++++++++++
-
-          setTimeout(fightStageTransition, 1500);
-
+          
+          
           //-------------------------------------------------------------CHANGE THIS---- TESTING ONLY ---------------------------------------------------------------------------------------------------------------------------
-          setTimeout(signDisplayNoneBadFunctionChangeThis, 1500);
           //-------------------------------------------------------------CHANGE THIS---- TESTING ONLY ---------------------------------------------------------------------------------------------------------------------------
-
+          
           if (store.getState().player.talkingTo === "knight") {
+            setTimeout(signDisplayNoneBadFunctionChangeThis, 1500);
+            setTimeout(function(){worldTransition(fightStageWorld, "fightStage1")}, 1500);
             setTimeout(fightingKnightNow, 1500);
             setTimeout(fightTheKnight, 1500);
             //declare fighting
@@ -235,23 +263,18 @@ export default function handleMovement(player) {
     }
   }
 
-  function fightStageTransition() {
+  function worldTransition(world, name) {
+    console.log("CHANGING MAP!");
+    
     store.dispatch({
       type: "ADD_TILES",
       payload: {
-        tiles: fightStageWorld
+        tiles: world,
+        name
       }
     });
   }
 
-  function fightStageTransition() {
-    store.dispatch({
-      type: "ADD_TILES",
-      payload: {
-        tiles: fightStageWorld
-      }
-    });
-  }
 
   function fightTheKnight() {
     let fightStance = [240, 0];

@@ -1,8 +1,8 @@
 const initialState = {
   hasCombat: false,
-  position: [200, 80],
+  position: [240, 80],
   dialogue: [
-    "Please ignore this sign, it's here only for visual balance.",
+    "I'm nothing like sign1, I respect you.",
     "Please leave",
     "You're a persistent one!",
     "...",
@@ -12,11 +12,11 @@ const initialState = {
   dialogueTrue: "ok Bye",
   dialogueFalse: "please stop reading",
   hasCombat: false,
-  name: "SignTwo",
+  name: "Sign",
   display: "flex"
 };
 
-const signReducer = (state = initialState, action) => {
+const signReducerTwo = (state = initialState, action) => {
   switch (action.type) {
     case "SIGN_DIALOGUE":
       return {
@@ -33,4 +33,4 @@ const signReducer = (state = initialState, action) => {
   }
 };
 
-export default signReducer;
+export default signReducerTwo;

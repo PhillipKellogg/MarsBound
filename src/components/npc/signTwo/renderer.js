@@ -1,7 +1,7 @@
 import React from "react";
 import store from "../../../config/store";
 
-export default function signDisplay(sign) {
+export default function signDisplayTwo(sign) {
   if (store.getState().player.fightingNow) {
     console.log("PLAYER FIGHTING");
 
@@ -12,7 +12,6 @@ export default function signDisplay(sign) {
       }
     });
   }
-
 
   return sign;
 }

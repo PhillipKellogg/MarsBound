@@ -1,5 +1,6 @@
 const initialState = {
-    position: []
+    position: [],
+    name: "Stage1"
   };
   
   const mapReducer = (state = initialState, action) => {

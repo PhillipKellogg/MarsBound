@@ -83,7 +83,8 @@ export default function fight(attackInput) {
     store.dispatch({
       type: "ADD_TILES",
       payload: {
-        tiles: tiles
+        tiles: tiles,
+        name: "Stage1"
       }
     });
     store.dispatch({

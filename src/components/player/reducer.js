@@ -1,5 +1,5 @@
 const initialState = {
-  position: [0, 0],
+  position: [80, 240],
   spriteLocation: "0px 0px",
   direction: "down",
   walkIndex: 0,
@@ -27,6 +27,11 @@ const playerReducer = (state = initialState, action) => {
         page: state.page + action.payload.value,
         finalPage: action.payload.finalPage
       };
+      case "POSITION_CHANGE":
+        return {
+          ...state,
+          position: action.payload.position
+        };
     case "COMBAT":
       return { ...state, inCombat: action.payload.inCombat };
     case "FIGHTING_NOW":

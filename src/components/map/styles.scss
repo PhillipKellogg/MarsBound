@@ -124,6 +124,61 @@
     background-color: #222;
 
   }
+  &__10 {
+    background-image: url("../../assets/tiles/wallTopLeft.png");
+    background-position: center;
+    background-size: cover;
+    background-color: #222;
+
+  }
+  &__11 {
+    background-image: url("../../assets/tiles/wallBottomLeft.png");
+    background-position: center;
+    background-size: cover;
+    background-color: #222;
+  }
+  &__12 {
+    background-image: url("../../assets/tiles/emptyCorner.png");
+    background-position: center;
+    background-size: cover;
+    background-color: #222;
+  }
+  &__13 {
+    background-image: url("../../assets/tiles/emptyCornerRight.png");
+    background-position: center;
+    background-size: cover;
+    background-color: #222;
+  }
+  &__14 {
+    background-image: url("../../assets/tiles/emptyCornerTopRight.png");
+    background-position: center;
+    background-size: cover;
+    background-color: #222;
+  }
+  &__15 {
+    background-image: url("../../assets/tiles/emptyCornerTopLeft.png");
+    background-position: center;
+    background-size: cover;
+    background-color: #222;
+  }
+  &__16 {
+    background-image: url("../../assets/tiles/bottomLeft.png");
+    background-position: center;
+    background-size: cover;
+    background-color: #222;
+  }
+  &__water {
+    background-image: url("../../assets/tiles/waterWallTile.png");
+    background-position: center;
+    background-size: cover;
+    background-color: #222;
+  }
+  &__lava {
+    background-image: url("../../assets/tiles/LavaWall.png");
+    background-position: center;
+    background-size: cover;
+    background-color: #222;
+  }
   &__pillar--1 {
     background-image: url("../../assets/tiles/pillar1.png");
     background-position: center;
@@ -137,7 +192,7 @@
 }
 
 .void {
-  background-color: black;
+  background-color: #222;
 }
 
 .sign {

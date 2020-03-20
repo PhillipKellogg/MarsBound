@@ -61,10 +61,26 @@ function getTileSprite(type) {
         return "wall__8";
         case 32:
           return "wall__9";
+          case 33:
+            return "wall__10";
+            case 34:
+              return "wall__11";
+                          case 35:
+              return "wall__12";
+              case 36:
+                return "wall__13";
+                case 37:
+                  return "wall__14";
+                  case 38:
+                    return "wall__15";
+                    case 39:
+                      return "wall__16";
     case 41:
       return "fight__1";
     case 42:
       return "fight__2";
+          case 49:
+      return "void";
   }
 }
 
