@@ -3,6 +3,8 @@ import { SPRITE_SIZE, MAP_WIDTH, MAP_HEIGHT } from "../../config/constants";
 import { func } from "prop-types";
 import { tiles } from "../../data/maps/1";
 import { fightStageWorld } from "../../data/maps/2";
+import fight from "./fight";
+import { someSeries } from "async";
 
 export default function handleMovement(player) {
   function observeBoundaries(oldPos, newPos) {
@@ -20,8 +22,7 @@ export default function handleMovement(player) {
     const x = newPos[0] / SPRITE_SIZE;
     const nextTile = tiles[y][x];
 
-    // if (nextTile === 50) startDialogue();
-    return nextTile < 5;
+    return nextTile < 20;
   }
 
   function getNewPosition(oldPos, direction) {
@@ -80,13 +81,15 @@ export default function handleMovement(player) {
     switch (interact) {
       //????????????????????????? INTERACT KEYS ?????????????????????????????
       case "i":
-        return changePage(true); // Option One
+        // fight("Attack")
+        return null; // Option One
       case "accept":
         return changePage(1); // J
       case "decline":
         return changePage(-1); // K
       case "l":
-        return changePage(false); // Option two
+        // fight("Heal")
+        return null; // Option two
     }
   }
 
@@ -203,35 +206,80 @@ export default function handleMovement(player) {
       case "accept":
         if (
           store.getState().player.inCombat &&
-          store.getState().player.finalPage
+          store.getState().player.finalPage &&
+          !store.getState().player.fightingNow
         ) {
           //+++++++++++++++++++++++++++++++++MAP UPDATES++++++++++++++++++++++++++++++++++++++++
-          store.dispatch({
-            type: "ADD_TILES",
-            payload: {
-              tiles: fightStageWorld
-            }
-          });
-          fightingNow();
+
+          setTimeout(fightStageTransition, 1500);
 
           //-------------------------------------------------------------CHANGE THIS---- TESTING ONLY ---------------------------------------------------------------------------------------------------------------------------
-          signDisplayNoneBadFunctionChangeThis();
+          setTimeout(signDisplayNoneBadFunctionChangeThis, 1500);
           //-------------------------------------------------------------CHANGE THIS---- TESTING ONLY ---------------------------------------------------------------------------------------------------------------------------
 
           if (store.getState().player.talkingTo === "knight") {
-            fightTheKnight();
+            setTimeout(fightingKnightNow, 1500);
+            setTimeout(fightTheKnight, 1500);
+            //declare fighting
           }
           return console.log("changing stage");
         }
     }
   }
 
-  function fightingNow() {
+  function endKnightFight() {
+    if (
+      store.getState().player.talkingTo === "knightBattle" &&
+      store.getState().player.fightNow === false
+    ) {
+    }
+  }
+
+  function fightStageTransition() {
+    store.dispatch({
+      type: "ADD_TILES",
+      payload: {
+        tiles: fightStageWorld
+      }
+    });
+  }
+
+  function fightStageTransition() {
+    store.dispatch({
+      type: "ADD_TILES",
+      payload: {
+        tiles: fightStageWorld
+      }
+    });
+  }
+
+  function fightTheKnight() {
+    let fightStance = [240, 0];
+    store.dispatch({
+      type: "DRAW_FIGHT",
+      payload: {
+        pos: fightStance,
+        sLocation: "0px 0px",
+        fighting: true
+      }
+    });
+  }
+  function fightingKnightNow() {
+    const fightDialogue = [
+      "GET READY FOR BATTLE",
+      " I to Attack \xa0\xa0\xa0\xa0 L to Heal"
+    ];
     store.dispatch({
       type: "FIGHTING_NOW",
       payload: {
         fightingNow: true,
-        visibility: "hidden"
+        visibility: "hidden",
+        talkingTo: "knightBattle",
+        fightingNow: true,
+        page: 0,
+        currDialogue: fightDialogue,
+        enemyHP: store.getState().knight.health,
+        eMaxHP: store.getState().knight.health
       }
     });
   }
@@ -247,17 +295,7 @@ export default function handleMovement(player) {
   }
   //-------------------------------------------------------------CHANGE THIS---- TESTING ONLY ---------------------------------------------------------------------------------------------------------------------------
 
-  function fightTheKnight() {
-    let fightStance = [240, 0];
-    store.dispatch({
-      type: "DRAW_FIGHT",
-      payload: {
-        pos: fightStance,
-        sLocation: "0px 0px",
-        fighting: true
-      }
-    });
-  }
+  //=================================================================================================================================
 
   function handleKeyDown(e) {
     e.preventDefault();
@@ -281,16 +319,22 @@ export default function handleMovement(player) {
       case 32:
         return startDialogue("interact");
       case 73:
-        return startDialogue("i");
+        return fightInteract("heal");
       case 74:
         return startDialogue("accept"), checkFightStatus("accept");
       case 75:
         return startDialogue("decline");
       case 76:
-        return startDialogue("l");
+        return fightInteract("attack");
 
       default:
         console.log(e.keyCode);
+    }
+  }
+
+  function fightInteract(attackInput) {
+    if (store.getState().player.fightingNow) {
+      fight(attackInput);
     }
   }
 

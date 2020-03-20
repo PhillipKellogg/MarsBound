@@ -25,7 +25,13 @@ function Player(props) {
         }}
       ></div>
 
-      <Dialogue page={props.page} msg={props.currDialogue} />
+      <Dialogue
+        health={props.health}
+        enemyHealth={props.enemyHealth}
+        page={props.page}
+        msg={props.currDialogue}
+      />
+      {console.log(props.currDialogue)}
     </div>
   );
 }

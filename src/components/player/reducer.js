@@ -11,7 +11,10 @@ const initialState = {
   talkingTo: null,
   finalPage: false,
   fightingNow: false,
-  visibility: "visible"
+  visibility: "visible",
+  health: 20,
+  enemyHealth: null,
+  eMaxHP: null
 };
 
 const playerReducer = (state = initialState, action) => {
@@ -30,6 +33,26 @@ const playerReducer = (state = initialState, action) => {
       return {
         ...state,
         fightingNow: action.payload.fightingNow,
+        visibility: action.payload.visibility,
+        talkingTo: action.payload.talkingTo,
+        currDialogue: action.payload.currDialogue,
+        finalPage: action.payload.finalPage,
+        enemyHealth: action.payload.enemyHP,
+        eMaxHP: action.payload.eMaxHP,
+        page: action.payload.page
+      };
+    case "FIGHT_SEQUENCE":
+      return {
+        ...state,
+        currDialogue: action.payload.currDialogue,
+        health: action.payload.health,
+        enemyHealth: action.payload.enemyHealth,
+        page: action.payload.page,
+        fightingNow: action.payload.fightingNow
+      };
+    case "VISIBILITY":
+      return {
+        ...state,
         visibility: action.payload.visibility
       };
     default:

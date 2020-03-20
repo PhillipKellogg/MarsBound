@@ -18,13 +18,9 @@ const initialState = {
   bgSize: "",
   width: "40px",
   height: "40px",
-  fightReducer: "DRAW_FIGHT"
-
-  // fightDialogue: [
-  //   "Knight Uses: Stab!",
-  //   `Knight deals ${math.random()} damage`,
-
-  // ]
+  fightReducer: "DRAW_FIGHT",
+  health: 12,
+  display: "flex"
 };
 
 const knightReducer = (state = initialState, action) => {
@@ -51,6 +47,12 @@ const knightReducer = (state = initialState, action) => {
         height: "360px",
         bgSize: "cover",
         stillFrame: knightSingleFrame
+      };
+    case "KNIGHT_DISPLAY":
+      return {
+        ...state,
+        position: [-40, -40],
+        display: action.payload.display
       };
     default:
       return state;

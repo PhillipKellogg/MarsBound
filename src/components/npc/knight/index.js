@@ -17,7 +17,8 @@ function Knight(props) {
         backgroundSize: props.bgSize,
         backgroundRepeat: "no-repeat",
         width: props.width,
-        height: props.height
+        height: props.height,
+        display: props.display
       }}
     ></div>
   );

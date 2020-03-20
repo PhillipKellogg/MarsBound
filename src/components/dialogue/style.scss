@@ -17,12 +17,16 @@
   &__wrapper {
     width: 800px;
     // background-color: aquamarine;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
     margin-top: 5px;
   }
   &__border {
     border: darkcyan 4px solid;
     height: 90%;
     width: 95%;
+
     align-self: center;
     align-items: center;
     margin: auto;
@@ -43,4 +47,25 @@
     flex-direction: row;
     justify-content: space-between;
   }
+  &__border--fix {
+    display: inline;
+    flex-direction: column;
+  }
+}
+.enemyHealth {
+  background-image: url("../../assets/tiles/heart\ pixel\ art\ 254x254.png");
+  background-position: center;
+  background-size: cover;
+}
+.plyrHealth {
+  background-image: url("../../assets/tiles/heart\ pixel\ art\ 254x254.png");
+  background-position: center;
+  background-size: cover;
+}
+.health__wrapper {
+  width: 200px;
+}
+
+.sub__title {
+  font-family: gameFont;
 }

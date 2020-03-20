@@ -10,20 +10,61 @@ function getTileSprite(type) {
   switch (type) {
     case 0:
       return "grass";
+    case 1:
+      return "floor__1";
+    case 2:
+      return "floor__2";
     case 3:
-      return "safeTile";
+      return "floor__3";
+    case 4:
+      return "floor__4";
     case 5:
-      return "rock";
+      return "floor__5";
     case 6:
-      return "tree";
+      return "floor__6";
+    case 7:
+      return "floor__7";
     case 8:
-      return "fightTile1";
-    case 9:
-      return "fightTile2";
+      return "floor__8";
+    case 9: //Exit ------------ SPECIAL TILE
+      return "floor__9";
     case 10:
-      return "void";
-    case 50:
-      return "sign";
+      return "floor__water";
+    case 11:
+      return "floor__lava";
+    case 12:
+      return "floor__pillar";
+    //13-19 no collision
+    case 20:
+      return "wall__water";
+    case 21:
+      return "wall__lava";
+    case 22:
+      return "wall__pillar--1";
+    case 23:
+      return "wall__pillar--2";
+    case 24:
+      return "wall__1";
+    case 25:
+      return "wall__2";
+    case 26:
+      return "wall__3";
+    case 27:
+      return "wall__4";
+    case 28:
+      return "wall__5";
+    case 29:
+      return "wall__6";
+    case 30:
+      return "wall__7";
+      case 31:
+        return "wall__8";
+        case 32:
+          return "wall__9";
+    case 41:
+      return "fight__1";
+    case 42:
+      return "fight__2";
   }
 }
 
