@@ -14,13 +14,20 @@ const initialState = {
   visibility: "visible",
   health: 20,
   enemyHealth: null,
-  eMaxHP: null
+  eMaxHP: null,
+  prevMap: null,
+  prevMapName: null
+
 };
 
 const playerReducer = (state = initialState, action) => {
   switch (action.type) {
     case "MOVE_PLAYER":
       return { ...state, ...action.payload };
+      case "PREV_MAP":
+        return { ...state,   
+           prevMap: action.payload.prevMap,  
+          prevMapName: action.payload.prevMapName};
     case "CHANGE_PAGE":
       return {
         ...state,
@@ -44,7 +51,8 @@ const playerReducer = (state = initialState, action) => {
         finalPage: action.payload.finalPage,
         enemyHealth: action.payload.enemyHP,
         eMaxHP: action.payload.eMaxHP,
-        page: action.payload.page
+        page: action.payload.page,
+     
       };
     case "FIGHT_SEQUENCE":
       return {

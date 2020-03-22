@@ -20,9 +20,9 @@ export default function fight(attackInput) {
     }
   }
   //CHANGE S
-  console.log(`This is the newDialogue Arr ${newDialogue}`);
+  // console.log(`This is the newDialogue Arr ${newDialogue}`);
   if (enemyHP) {
-    console.log("ENEMY ATTACK -------------------------------------");
+    // console.log("ENEMY ATTACK -------------------------------------");
 
     if (Math.floor(Math.random() * (2 - 0) + 0)) {
       enemyAttack();
@@ -32,10 +32,14 @@ export default function fight(attackInput) {
   }
   if (enemyHP <= 0) {
     fightingNow = false;
-    setTimeout(knightBattleWin, 5000);
     if (store.getState().player.talkingTo === "knightBattle") {
+      setTimeout(knightBattleWin, 5000);
+    } else if (store.getState().player.talkingTo === "goblinBattle") {
+      setTimeout(goblinBattleWin, 5000);
+    } else if (store.getState().player.talkingTo === "goblinTwoBattle") {
+      setTimeout(goblinTwoBattleWin, 5000);
     }
-    newDialogue.push("Congratulations!", "YOU WIN!!!");
+      newDialogue.push("Congratulations!", "YOU WIN!!!");
   } else if (playerHP <= 0) {
     fightingNow = false;
     newDialogue.push("you lost....");
@@ -45,6 +49,7 @@ export default function fight(attackInput) {
 
   console.log(`This is the newDialogue Arr ${newDialogue}`);
   fightingNow ? (visibility = "none") : (visibility = "visible");
+  setTimeout(()=>{}, 5000);
 
   dispatchCombat(newDialogue, playerHP, enemyHP, fightingNow, visibility);
 
@@ -80,28 +85,74 @@ export default function fight(attackInput) {
   }
 
   function knightBattleWin() {
-    store.dispatch({
-      type: "ADD_TILES",
-      payload: {
-        tiles: tiles,
-        name: "Stage1"
-      }
-    });
-    store.dispatch({
-      type: "SHOW_SIGN",
-      payload: {
-        display: "flex"
-      }
-    });
+    dispatchPrevMap();
+    if (store.getState().player.prevMapName === "Stage1"){
+      store.dispatch({
+        type: "SHOW_SIGN",
+        payload: {
+          display: "flex"
+        }
+      });
+  }
     store.dispatch({
       type: "KNIGHT_DISPLAY",
       payload: {
         display: "none"
       }
     });
+
     dispatchCombat(null, 20, null, false, "visible");
   }
 
+
+  function dispatchPrevMap(){
+    store.dispatch({
+      type: "ADD_TILES",
+      payload: {
+        tiles: store.getState().player.prevMap,
+        name:store.getState().player.prevMapName
+      }
+    });
+  }
+
+  function goblinOneDisplay( display) {
+    store.dispatch({
+      type: "GOBLIN_DISPLAY",
+      payload: {
+        display
+      }
+    });
+  }
+
+  function goblinOneVisibility(visi) {
+    store.dispatch({
+      type: "GOBLIN_VISIBILITY",
+      payload: {
+        visibility: visi
+      }
+    });
+  }
+
+  function goblinTwoDisplay(display) {
+    store.dispatch({
+      type: "GOBLIN_DISPLAY_TWO",
+      payload: {
+        display
+      }
+    });
+  }
+  function goblinBattleWin() {
+    dispatchPrevMap();
+    goblinOneDisplay("none");
+    dispatchCombat(null, 20, null, false, "visible");
+  }
+
+  function goblinTwoBattleWin() {
+    dispatchPrevMap();
+    goblinTwoDisplay("none");
+    goblinOneVisibility( "visible");
+    dispatchCombat(null, 20, null, false, "visible");
+  }
   function playerAttack() {
     let ability = Math.floor(Math.random() * (3 - 1) + 1);
     enemyHP -= ability;

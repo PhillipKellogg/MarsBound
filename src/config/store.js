@@ -5,14 +5,18 @@ import signReducer from "../components/npc/sign/reducer";
 import signReducerTwo from "../components/npc/signTwo/reducer";
 
 import knightReducer from "../components/npc/knight/reducer";
-// import goblinReducer from "../components/npc/goblin/reducer";
+import goblinReducer from "../components/npc/goblin/reducer";
+import goblinReducerTwo from "../components/npc/goblinTwo/reducer";
+
 // import dialogueReducer from "../components/dialogue/reducer";
 
 const rootReducer = combineReducers({
   player: playerReducer,
   map: mapReducer,
   knight: knightReducer,
-  // goblin: goblinReducer,
+  goblin: goblinReducer,
+  goblinTwo: goblinReducerTwo,
+
   sign: signReducer,
   signTwo: signReducerTwo
   // dialogue: dialogueReducer

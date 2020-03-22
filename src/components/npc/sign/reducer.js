@@ -9,10 +9,8 @@ const initialState = {
     "............................................."
   ],
   response: null,
-  dialogueTrue: "ok Bye",
-  dialogueFalse: "please stop reading",
   hasCombat: false,
-  name: "SignTwo",
+  name: "Sign",
   display: "flex"
 };
 

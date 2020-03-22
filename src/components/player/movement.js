@@ -5,7 +5,7 @@ import { tiles } from "../../data/maps/1";
 import { fightStageWorld } from "../../data/maps/2";
 import { worldTwoTiles } from "../../data/maps/3";
 import { worldThreeTiles } from "../../data/maps/4";
-
+import dispatchStage2Sign from "../npc/sign/signRenderer"
 import fight from "./fight";
 import { someSeries } from "async";
 
@@ -31,18 +31,40 @@ export default function handleMovement(player) {
       console.log("STAGE CHANGE IF STATEMENT");
       setTimeout(function(){dispatchPosition(80,120)}, 1500);
       setTimeout(function(){signDisplayNoneBadFunctionChangeThis()}, 1500);
+      setTimeout(function(){dispatchDrawGoblin("flex")}, 1500);
+      setTimeout(function(){dispatchDrawGoblinTwo("flex")}, 1500);
+      setTimeout(function(){dispatchStage2Sign()}, 1500);
+
       }
       if (store.getState().map.name === "Stage2"){
         setTimeout(function(){worldTransition(worldThreeTiles, "Stage3")}, 1500);
         console.log("STAGE CHANGE IF STATEMENT");
         setTimeout(function(){dispatchPosition(40,120)}, 1500);
+        setTimeout(function(){dispatchDrawGoblin("none")}, 1500);
+        setTimeout(function(){dispatchDrawGoblinTwo("none")}, 1500);
+
 
         }
     }
 
     return nextTile < 20;
   }
-
+  function dispatchDrawGoblin(draw){
+    store.dispatch({
+      type:"DRAW_GOBLIN",
+      payload:{
+        display: draw
+      }
+    })
+  }
+  function dispatchDrawGoblinTwo(draw){
+    store.dispatch({
+      type:"DRAW_GOBLIN_TWO",
+      payload:{
+        display: draw
+      }
+    })
+  }
   function dispatchPosition(x,y){
     const initialPos = [x,y];
     store.dispatch({
@@ -197,19 +219,26 @@ export default function handleMovement(player) {
     const signPos = sign.position;
     const knight = store.getState().knight;
     const knightPos = knight.position;
+    const goblin = store.getState().goblin;
+    const goblinPos = goblin.position;
+    const goblinTwo = store.getState().goblinTwo;
+    const goblinTwoPos = goblinTwo.position;
     let move = true;
     //repeat for each NPC
     if (newPos[1] === signPos[1] && newPos[0] === signPos[0]) {
       dispatchMove(direction, oldPos, hasDialogue(sign), sign.name);
       move = false; //Is it ok to move?
-    }
-    if (newPos[1] === knightPos[1] && newPos[0] === knightPos[0]) {
-      // console.log(knight.name);
-
+    }else if (newPos[1] === knightPos[1] && newPos[0] === knightPos[0]) {
       dispatchMove(direction, oldPos, hasDialogue(knight), knight.name);
-
       inCombat(knight);
-
+      move = false;
+    } else if (newPos[1] === goblinPos[1] && newPos[0] === goblinPos[0] && store.getState().map.name === "Stage2") {
+      dispatchMove(direction, oldPos, hasDialogue(goblin), goblin.name);
+      inCombat(goblin);
+      move = false;
+    } else if (newPos[1] === goblinTwoPos[1] && newPos[0] === goblinTwoPos[0]  && store.getState().map.name === "Stage2") {
+      dispatchMove(direction, oldPos, hasDialogue(goblinTwo), goblinTwo.name);
+      inCombat(goblinTwo);
       move = false;
     }
     return move;
@@ -244,11 +273,27 @@ export default function handleMovement(player) {
           //-------------------------------------------------------------CHANGE THIS---- TESTING ONLY ---------------------------------------------------------------------------------------------------------------------------
           
           if (store.getState().player.talkingTo === "knight") {
+            setTimeout(function(){dispatchPrevMap(tiles,"Stage1")}, 1500);
             setTimeout(signDisplayNoneBadFunctionChangeThis, 1500);
             setTimeout(function(){worldTransition(fightStageWorld, "fightStage1")}, 1500);
             setTimeout(fightingKnightNow, 1500);
             setTimeout(fightTheKnight, 1500);
             //declare fighting
+          }
+          if (store.getState().player.talkingTo === "goblin") {
+            setTimeout(function(){dispatchPrevMap(worldTwoTiles,"Stage2")}, 1500);
+            setTimeout(signDisplayNoneBadFunctionChangeThis, 1500); //Made another one of these bad functions for GOBLINTWO
+            setTimeout(function(){worldTransition(fightStageWorld, "fightStage1")}, 1500);
+            setTimeout(fightingGoblinNow, 1500);
+            setTimeout(fightFirstGoblin, 1500);
+          }
+          if (store.getState().player.talkingTo === "goblinTwo") {
+            setTimeout(function(){goblinOneVisibility("hidden")}, 1500);
+            setTimeout(function(){dispatchPrevMap(worldTwoTiles,"Stage2")}, 1500);
+            setTimeout(signDisplayNoneBadFunctionChangeThis, 1500); //Made another one of these bad functions for GOBLINTWO
+            setTimeout(function(){worldTransition(fightStageWorld, "fightStage1")}, 1500);
+            setTimeout(fightingGoblinTwoNow, 1500);
+            setTimeout(fightSecondGoblin, 1500);
           }
           return console.log("changing stage");
         }
@@ -262,10 +307,29 @@ export default function handleMovement(player) {
     ) {
     }
   }
+  function goblinOneVisibility(visibility) {
+    store.dispatch({
+      type: "GOBLIN_VISIBILITY",
+      payload: {
+        visibility
+      }
+    });
+  }
+
+function dispatchPrevMap(tiles, name) {
+
+  store.dispatch({
+    type: "PREV_MAP",
+    payload: {
+      prevMap: tiles,
+      prevMapName: name
+    }
+  });
+}
 
   function worldTransition(world, name) {
     console.log("CHANGING MAP!");
-    
+
     store.dispatch({
       type: "ADD_TILES",
       payload: {
@@ -277,7 +341,7 @@ export default function handleMovement(player) {
 
 
   function fightTheKnight() {
-    let fightStance = [240, 0];
+    const fightStance = [240, 0];
     store.dispatch({
       type: "DRAW_FIGHT",
       payload: {
@@ -287,6 +351,31 @@ export default function handleMovement(player) {
       }
     });
   }
+
+  function fightFirstGoblin() {
+    const fightStance = [240, 0];
+    store.dispatch({
+      type: "DRAW_FIGHT_G1",
+      payload: {
+        pos: fightStance,
+        sLocation: "0px 0px",
+        fighting: true
+      }
+    });
+  }
+
+  function fightSecondGoblin() {
+    const fightStance = [240, 0];
+    store.dispatch({
+      type: "DRAW_FIGHT_G2",
+      payload: {
+        pos: fightStance,
+        sLocation: "0px 0px",
+        fighting: true
+      }
+    });
+  }
+
   function fightingKnightNow() {
     const fightDialogue = [
       "GET READY FOR BATTLE",
@@ -302,11 +391,49 @@ export default function handleMovement(player) {
         page: 0,
         currDialogue: fightDialogue,
         enemyHP: store.getState().knight.health,
-        eMaxHP: store.getState().knight.health
+        eMaxHP: store.getState().knight.health, 
+      }
+    });
+
+  }
+  function fightingGoblinNow() {
+    const fightDialogue = [
+      "GET READY FOR BATTLE",
+      " I to Attack \xa0\xa0\xa0\xa0 L to Heal"
+    ];
+    store.dispatch({
+      type: "FIGHTING_NOW",
+      payload: {
+        fightingNow: true,
+        visibility: "hidden",
+        talkingTo: "goblinBattle",
+        fightingNow: true,
+        page: 0,
+        currDialogue: fightDialogue,
+        enemyHP: store.getState().goblin.health,
+        eMaxHP: store.getState().goblin.health
       }
     });
   }
-
+  function fightingGoblinTwoNow() {
+    const fightDialogue = [
+      "NOM NOM NOM NOM NOM",
+      " I to Attack \xa0\xa0\xa0\xa0 L to Heal"
+    ];
+    store.dispatch({
+      type: "FIGHTING_NOW",
+      payload: {
+        fightingNow: true,
+        visibility: "hidden",
+        talkingTo: "goblinTwoBattle",
+        fightingNow: true,
+        page: 0,
+        currDialogue: fightDialogue,
+        enemyHP: store.getState().goblinTwo.health,
+        eMaxHP: store.getState().goblinTwo.health
+      }
+    });
+  }
   //-------------------------------------------------------------CHANGE THIS---- TESTING ONLY ---------------------------------------------------------------------------------------------------------------------------
   function signDisplayNoneBadFunctionChangeThis() {
     store.dispatch({

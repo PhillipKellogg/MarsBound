@@ -5,7 +5,8 @@ import Pages from "../pages/Pages";
 
 import Sign from "../npc/sign";
 import SignTwo from "../npc/signTwo";
-// import Goblin from "../npc/goblin";
+import Goblin from "../npc/goblin";
+import GoblinTwo from "../npc/goblinTwo";
 
 import Knight from "../npc/knight";
 
@@ -34,7 +35,9 @@ function World(props) {
         <Player />
         <Sign />
         <SignTwo />
-        {/* <Goblin /> */}
+        <Goblin />
+        <GoblinTwo />
+
         <Knight />
       </div>
     </Pages>

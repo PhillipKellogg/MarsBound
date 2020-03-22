@@ -12,7 +12,5 @@ export default function signDisplay(sign) {
       }
     });
   }
-
-
   return sign;
 }

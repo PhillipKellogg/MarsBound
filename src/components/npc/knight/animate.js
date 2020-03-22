@@ -52,31 +52,33 @@ export default function animateMovement(knight) {
   }
 
   function dispatchInterval() {
-    if (!store.getState().knight.inCombat) {
-      seconds5 += 1;
-      let newPos = store.getState().knight.position;
-      if (seconds5 === 4) {
-        seconds5 = 0;
-        newPos = moveKnight();
-      }
-
-      let newInterval = store.getState().knight.interval;
-      let sprite = spriteLocation();
-
-      if (newInterval === 0) {
-        newInterval = 1;
-      } else {
-        newInterval = 0;
-      }
-
-      store.dispatch({
-        type: "UPDATE_INTERVAL",
-        payload: {
-          interval: newInterval,
-          position: newPos,
-          spriteLocation: sprite
+    if (store.getState().map.name === "Stage1"){
+      if (!store.getState().knight.inCombat) {
+        seconds5 += 1;
+        let newPos = store.getState().knight.position;
+        if (seconds5 === 4) {
+          seconds5 = 0;
+          newPos = moveKnight();
         }
-      });
+
+        let newInterval = store.getState().knight.interval;
+        let sprite = spriteLocation();
+
+        if (newInterval === 0) {
+          newInterval = 1;
+        } else {
+          newInterval = 0;
+        }
+
+        store.dispatch({
+          type: "UPDATE_INTERVAL",
+          payload: {
+            interval: newInterval,
+            position: newPos,
+            spriteLocation: sprite
+          }
+        });
+      }
     }
   }
   function walkingIndex() {

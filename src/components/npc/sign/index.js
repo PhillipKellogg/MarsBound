@@ -8,11 +8,6 @@ import store from "../../../config/store";
 import signDisplay from "./renderer.js";
 
 function Sign(props) {
-  //----------------------------------------------------------------------------------------------------
-  //                                GET THE SIGN TO DISPLAY PROPERLY
-  //                                         IF STATEMENT NOT WORKING
-  //----------------------------------------------------------------------------------------------------
-
   return (
     <div
       style={{
