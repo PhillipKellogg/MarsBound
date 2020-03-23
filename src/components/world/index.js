@@ -2,14 +2,14 @@ import React from "react";
 import Player from "../player";
 import Map from "../map";
 import Pages from "../pages/Pages";
-
+import "./style.scss"
 import Sign from "../npc/sign";
 import SignTwo from "../npc/signTwo";
 import Goblin from "../npc/goblin";
 import GoblinTwo from "../npc/goblinTwo";
 
 import Knight from "../npc/knight";
-
+import Boss from "../npc/boss"
 import { tiles } from "../../data/maps/1";
 import store from "../../config/store";
 
@@ -23,6 +23,7 @@ function World(props) {
   });
   return (
     <Pages>
+      <section className="main">
       <div
         style={{
           position: "relative",
@@ -37,9 +38,10 @@ function World(props) {
         <SignTwo />
         <Goblin />
         <GoblinTwo />
-
+        <Boss />
         <Knight />
       </div>
+      </section>
     </Pages>
   );
 }

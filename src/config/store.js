@@ -7,6 +7,7 @@ import signReducerTwo from "../components/npc/signTwo/reducer";
 import knightReducer from "../components/npc/knight/reducer";
 import goblinReducer from "../components/npc/goblin/reducer";
 import goblinReducerTwo from "../components/npc/goblinTwo/reducer";
+import bossReducer from "../components/npc/boss/reducer";
 
 // import dialogueReducer from "../components/dialogue/reducer";
 
@@ -16,7 +17,7 @@ const rootReducer = combineReducers({
   knight: knightReducer,
   goblin: goblinReducer,
   goblinTwo: goblinReducerTwo,
-
+  boss: bossReducer,
   sign: signReducer,
   signTwo: signReducerTwo
   // dialogue: dialogueReducer

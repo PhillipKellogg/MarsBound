@@ -10,10 +10,9 @@ function Header(props) {
     <nav className="header">
       <span className="header__logo">LOGO</span>
       <ul className="link">
-        <ol className="link__element link__element--1 ">Game</ol>
-        <ol className="link__element link__element--2 ">About Game</ol>
-        <ol className="link__element link__element--3 ">About Me</ol>
-        <ol className="link__element link__element--4 ">More Work</ol>
+        <Link to="/" className="link__element link__element--1 ">Game</Link>
+        <Link to="/about" className="link__element link__element--2 ">About Game</Link>
+        <Link to="/phillipkellogg" className="link__element link__element--3 ">About Me</Link>
       </ul>
     </nav>
   );

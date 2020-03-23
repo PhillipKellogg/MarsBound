@@ -257,3 +257,15 @@
     background-color: #33b4ff;
   }
 }
+.chest{
+  &__open{
+    background-image: url("../../assets/tiles/chestFull.png");
+    background-position: center;
+    background-size: cover;
+  }
+  &__closed{
+    background-image: url("../../assets/tiles/chestClosed.png");
+    background-position: center;
+    background-size: cover;
+  }
+}

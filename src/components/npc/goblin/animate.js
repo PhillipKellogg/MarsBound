@@ -11,7 +11,7 @@ export default function animateGoblin(goblin) {
     setInterval(() => {
       dispatchInterval();
     }, 500);
-  // }
+  
   function goblinPosition() {
     return (goblinPosition = store.getState().goblin.position);
   }
@@ -35,9 +35,6 @@ export default function animateGoblin(goblin) {
       case 1:
         return `-${frame * SPRITE_SIZE}px -40px`;
     }
-      if (store.getState().map.name === "Stage2"){
-    console.log("hi");
-      }
   }
 
   function moveGoblin() {
@@ -56,6 +53,7 @@ export default function animateGoblin(goblin) {
   }
 
   function dispatchInterval() {
+    if (store.getState().goblin.display !== "none"){
     
     if (store.getState().map.name === "Stage2"){
       console.log("HELLO");
@@ -88,7 +86,7 @@ export default function animateGoblin(goblin) {
           spriteLocation: sprite
         }
       });
-    }
+    }}
   }}
   // function walkingIndex() {
   //   let walkingStage = store.getState().goblin.walkIndex;

@@ -2,16 +2,17 @@ const initialState = {
   hasCombat: false,
   position: [200, 80],
   dialogue: [
-    "Please ignore this sign, it's here only for visual balance.",
-    "Please leave",
-    "You're a persistent one!",
-    "...",
-    "............................................."
+    "There is a wizard at the bottom of this dungeon.",
+    "He stole your wallet.",
+    "And called you a wimp!",
+    "Are you gonna take that?!?!?!?!",
+    "GO BEAT HIM UP!"
   ],
   response: null,
   hasCombat: false,
   name: "Sign",
-  display: "flex"
+  display: "flex",
+  visibility:" visible"
 };
 
 const signReducer = (state = initialState, action) => {

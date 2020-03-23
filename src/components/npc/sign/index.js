@@ -19,7 +19,8 @@ function Sign(props) {
         backgroundRepeat: "no-repeat",
         width: "40px",
         height: "40px",
-        display: props.display
+        display: props.display,
+        visibility: props.visibility
       }}
     ></div>
   );

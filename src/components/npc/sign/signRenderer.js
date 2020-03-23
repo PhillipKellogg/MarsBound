@@ -17,4 +17,19 @@ export default function dispatchStage2Sign() {
         }
       });
     }
+    if (store.getState().map.name === "Stage3"){
+      const stage2Dialogue= [
+        "BOSS' LAYER",
+        "no wimps"
+      ];
+      store.dispatch({
+        type: "SIGN_DIALOGUE",
+        payload: {  
+          position: [240, 80],
+          dialogue: stage2Dialogue,
+          hasCombat: false, 
+          display: "flex"
+        }
+      });
+    }
   }

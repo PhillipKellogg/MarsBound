@@ -79,6 +79,11 @@ function getTileSprite(type) {
       return "fight__1";
     case 42:
       return "fight__2";
+
+      case 45:
+        return "chest__closed";
+        case 46:
+          return "chest__open";
           case 49:
       return "void";
   }

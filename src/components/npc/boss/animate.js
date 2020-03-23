@@ -3,22 +3,22 @@ import { SPRITE_SIZE, MAP_WIDTH, MAP_HEIGHT } from "../../../config/constants";
 import { Component } from "react";
 import player from "../../player";
 
-export default function animateGoblin(goblinTwo) {
-  // console.log("hi");
+export default function animateBoss(boss) {
+  console.log("hi");
   let seconds5 = 0;
  
-  // while (store.getState().map.name === "Stage2"){
+
     setInterval(() => {
       dispatchInterval();
-    }, 1500);
+    }, 500);
 
-  function goblinPosition() {
-    return (goblinPosition = store.getState().goblinTwo.position);
+  function bossPosition() {
+    return (bossPosition = store.getState().boss.position);
   }
 
-  function animateGoblin() {
-    let oldPos = store.getState().goblinTwo.position;
-    if (oldPos[0] === 720) {
+  function animateBoss() {
+    let oldPos = store.getState().boss.position;
+    if (oldPos[0] === 600) {
       return 0;
     } else {
       return 1;
@@ -26,8 +26,8 @@ export default function animateGoblin(goblinTwo) {
   }
 
   function spriteLocation(frame) {
-    let direction = animateGoblin();
-    // let { interval } = store.getState().goblin;
+    let direction = animateBoss();
+    // let { interval } = store.getState().boss;
 
     switch (direction) {
       case 0:
@@ -35,20 +35,18 @@ export default function animateGoblin(goblinTwo) {
       case 1:
         return `-${frame * SPRITE_SIZE}px -40px`;
     }
-      if (store.getState().map.name === "Stage2"){
-    console.log("hi");
-      }
+
   }
 
-  function moveGoblin() {
-    let oldPos = store.getState().goblinTwo.position;
+  function moveBoss() {
+    let oldPos = store.getState().boss.position;
     let playerPos = store.getState().player.position;
 
-    if (oldPos[1]=== 320 && playerPos[1]!== 360) {
-      oldPos[1]= 360;
+    if (oldPos[0] === 560 && playerPos[0] !== 600) {
+      oldPos[0] = 600;
       return oldPos;
-    } else if (oldPos[1]=== 360 && playerPos[1]!== 320) {
-      oldPos[1]= 320;
+    } else if (oldPos[0] === 600 && playerPos[0] !== 560) {
+      oldPos[0] = 560;
       return oldPos;
     } else {
       return oldPos;
@@ -56,9 +54,8 @@ export default function animateGoblin(goblinTwo) {
   }
 
   function dispatchInterval() {
-    if (store.getState().goblinTwo.display !== "none"){
- 
-    if (store.getState().map.name === "Stage2"){
+    
+    if (store.getState().map.name === "Stage3"){
       console.log("HELLO");
         // let sprite;
     if (store.getState().player.fightingNow === false) {
@@ -66,13 +63,13 @@ export default function animateGoblin(goblinTwo) {
       console.log(seconds5);
       
       let  sprite=spriteLocation(seconds5);
-      let newPos = store.getState().goblinTwo.position;
+      let newPos = store.getState().boss.position;
       if (seconds5 === 3) {
         seconds5 = 0;
-        newPos = moveGoblin();
+        newPos = moveBoss();
       }
 
-      let newInterval = store.getState().goblinTwo.interval;
+      let newInterval = store.getState().boss.interval;
     
 
       if (newInterval === 0) {
@@ -82,7 +79,7 @@ export default function animateGoblin(goblinTwo) {
       }
 
       store.dispatch({
-        type: "UPDATE_INTERVAL_GOBLIN_TWO",
+        type: "UPDATE_INTERVAL_BOSS",
         payload: {
           interval: newInterval,
           position: newPos,
@@ -90,9 +87,9 @@ export default function animateGoblin(goblinTwo) {
         }
       });
     }
-  }}   }
+  }}
   // function walkingIndex() {
-  //   let walkingStage = store.getState().goblin.walkIndex;
+  //   let walkingStage = store.getState().boss.walkIndex;
   //   if (walkingStage === 0) {
   //     walkingStage = 1;
   //   } else if (walkingStage === 1) {
@@ -105,9 +102,9 @@ export default function animateGoblin(goblinTwo) {
 
 
 
-  function dispatchDrawGoblin(draw){
+  function dispatchDrawBoss(draw){
     store.dispatch({
-      type:"DRAW_GOBLIN_TWO",
+      type:"DRAW_BOSS",
       payload:{
         display: draw
       }
@@ -116,14 +113,14 @@ export default function animateGoblin(goblinTwo) {
 
   //This is run every half second
   function dispatchAnimate() {
-    // console.log("GOBLIN UPDATE!");
+    // console.log("BOSS UPDATE!");
 
     // walkingIndex = !walkingIndex;
     store.dispatch({
-      type: "GOBLIN_ANIMATE_TWO",
+      type: "BOSS_ANIMATE",
       payload: {
-        // position: goblinPosition(),
-        position: goblinPosition(),
+        // position: bossPosition(),
+        position: bossPosition(),
         // walkIndex: walkingIndex()
 
         //run every second
@@ -135,5 +132,5 @@ export default function animateGoblin(goblinTwo) {
     });
   }
 
-  return goblinTwo;
+  return boss;
 }
