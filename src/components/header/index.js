@@ -8,12 +8,28 @@ import "./style.scss";
 function Header(props) {
   return (
     <nav className="header">
-      <span className="header__logo">LOGO</span>
-      <ul className="link">
-        <Link to="/" className="link__element link__element--1 ">Game</Link>
-        <Link to="/about" className="link__element link__element--2 ">About Game</Link>
-        <Link to="/phillipkellogg" className="link__element link__element--3 ">About Me</Link>
-      </ul>
+      <div className="header__text_wrapper">
+        <Link to="/" className="header__logo">
+          DUNGEON CRAWL
+        </Link>
+        <ul className="link">
+          <Link to="/" className="link__text link__element link__element--1 ">
+            The Game
+          </Link>
+          <Link
+            to="/about"
+            className="link__text link__element link__element--2 "
+          >
+            About Dungeon Crawl
+          </Link>
+          <Link
+            to="/phillipkellogg"
+            className="link__text link__element link__element--3 "
+          >
+            About Myself
+          </Link>
+        </ul>
+      </div>
     </nav>
   );
 }
